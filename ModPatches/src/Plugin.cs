@@ -23,7 +23,7 @@ public class PatchPlugin : BaseUnityPlugin
     private PatchPlugin InitConfig()
     {
         this.Enable_Lingjie_LingQi_Patch = Config.Bind("开关", "灵界-roll灵气补丁.测试", false, "【即时生效】埋久工具库将魔气和鬼气也加入同系灵气计算，此补丁将其移除");
-        this.Enable_ElementalMastery_Empty_Slot_Patch = Config.Bind("开关", "埋久工具库-灵气空槽.测试", false, "【重启生效】尝试修复异灵气导致左键roll灵气出现空槽问题");
+        this.Enable_ElementalMastery_Empty_Slot_Patch = Config.Bind("开关", "埋久工具库-灵气空槽", true, "【重启生效】尝试修复异灵气导致左键roll灵气出现空槽问题");
         this.Enable_Debug = Config.Bind("开关", "输出更多debug信息", false, "【重启生效】输出更多debug信息，开发用。依赖于UnityExplorer");
         return this;
     }

@@ -5,7 +5,7 @@ using YSGame.Fight;
 
 namespace Unnamed42.ModPatches.Patches;
 
-[ModDependency(ModId.灵界, ModId.埋久工具库)]
+[ModDependency(ModId.右键施法, ModId.灵界, ModId.埋久工具库)]
 public class RightClickQuickCast_Lingjie_Patch
 {
 

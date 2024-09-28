@@ -42,7 +42,7 @@ public class SetChoiceSkill_Debug
         {
             insertions++;
             codes.InsertRange(insertPos, new List<CodeInstruction> {
-                new(OpCodes.Ldstr, "首次计算"),
+                new(OpCodes.Ldstr, "历史记录"),
                 new(OpCodes.Ldloc_S, 6),
                 new(OpCodes.Call, print),
             });

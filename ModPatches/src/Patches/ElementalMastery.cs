@@ -54,7 +54,7 @@ public class ElementalMastery_SetChoiceSkill_Patch
             new(OpCodes.Callvirt, typeof (JSONObject).GetMethod("get_Count", BindingFlags.Instance|BindingFlags.Public)),
             new(OpCodes.Bge, gen.DefineLabel().Also(label => codes[skillLoopEnd].labels.Add(label))),
         });
-        // 找到 for(int index=0; index<6; index++) 的循环条件体
+        // 找到 for (int index = 0; index < 6; ++index) 的循环条件体
         var secondLoopCond = codes.FindIndex(skillLoopEnd, (a, b, c) =>
             a.IsLdLoc_S(12) && b.Is(OpCodes.Ldc_I4_6) && c.Is(OpCodes.Blt));
         if (secondLoopCond == -1)
