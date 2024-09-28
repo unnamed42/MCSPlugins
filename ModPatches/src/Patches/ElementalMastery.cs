@@ -13,7 +13,7 @@ public class ElementalMastery_SetChoiceSkill_Patch
 
     [HarmonyTargetMethod]
     public static MethodBase TargetMethod() =>
-            AccessTools.Method(typeof(ElementalMastery.ElementalMastery).Assembly.GetType("ElementalMastery.Patcher"), "RoundManager_SetChoiceSkill_Patch");
+        AccessTools.Method(typeof(ElementalMastery.ElementalMastery).Assembly.GetType("ElementalMastery.Patcher"), "RoundManager_SetChoiceSkill_Patch");
 
     [HarmonyTranspiler]
     public static IEnumerable<CodeInstruction> Replace(IEnumerable<CodeInstruction> ins)

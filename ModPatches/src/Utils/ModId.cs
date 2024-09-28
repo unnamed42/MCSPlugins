@@ -44,6 +44,31 @@ public static class ModIdMethods
 
     public static bool IsActive(this ModId id) =>
         subscribed.TryGetValue(id, out var value) && value;
+
+    public static (string, bool) CanApplyPatch(Type type)
+    {
+        var deps = type.GetCustomAttributes(typeof(ModDependency), false).FirstOrDefault() as ModDependency;
+        var conflicts = type.GetCustomAttributes(typeof(ModConflicts), false).FirstOrDefault() as ModConflicts;
+        var depsSatisfied = deps?.Requires?.All(mod => mod.IsActive()) == true;
+        var hasConflicts = conflicts?.Conflicts?.Any(mod => mod.IsActive()) == true;
+        if (depsSatisfied && !hasConflicts)
+        {
+            return ($"检测到 {FormatMods(deps.Requires)}，已应用补丁 {type.Name}", true);
+        }
+        var tooltip = depsSatisfied ? "" : $"未满足全部依赖 {FormatMods(deps.Requires)}";
+        if (hasConflicts)
+        {
+            if (string.IsNullOrEmpty(tooltip))
+            {
+                tooltip = "，";
+            }
+            tooltip += $"存在冲突mod {FormatMods(conflicts.Conflicts)}";
+        }
+        return (tooltip + $"，跳过补丁 {type.Name}", false);
+    }
+
+    private static string FormatMods(ModId[] mods) =>
+        mods?.Select(mod => $"{mod}({(long)mod})").Join(",");
 }
 
 [AttributeUsage(AttributeTargets.Class)]

@@ -10,7 +10,8 @@ using YSGame.Fight;
 namespace Unnamed42.ModPatches.Debug;
 
 [ModDependency(ModId.UnityExplorer)]
-public class SetChoiceSkill_Debug {
+public class SetChoiceSkill_Debug
+{
 
     public static void Print(string str, Dictionary<int, int> skillCost)
     {
@@ -32,20 +33,37 @@ public class SetChoiceSkill_Debug {
     public static IEnumerable<CodeInstruction> AddLog(IEnumerable<CodeInstruction> ins, ILGenerator gen)
     {
         var codes = ins.ToList();
+        var insertions = 0;
+        var insertPos = -1;
         var print = typeof(SetChoiceSkill_Debug).GetMethod(nameof(Print), BindingFlags.Public | BindingFlags.Static);
-        var insertion = codes.FindIndex((a, b) => a.Is(OpCodes.Ldc_I4_1) && b.IsStLoc_S(20));
-        if (insertion != -1)
+        // 代码 flag3 = true
+        insertPos = codes.FindIndex((a, b) => a.Is(OpCodes.Ldc_I4_1) && b.IsStLoc_S(7));
+        if (insertPos != -1)
         {
-            codes.InsertRange(insertion, new List<CodeInstruction> {
+            insertions++;
+            codes.InsertRange(insertPos, new List<CodeInstruction> {
+                new(OpCodes.Ldstr, "首次计算"),
+                new(OpCodes.Ldloc_S, 6),
+                new(OpCodes.Call, print),
+            });
+        }
+        // 代码 flag5 = true
+        insertPos = codes.FindIndex((a, b) => a.Is(OpCodes.Ldc_I4_1) && b.IsStLoc_S(20));
+        if (insertPos != -1)
+        {
+            insertions++;
+            codes.InsertRange(insertPos, new List<CodeInstruction> {
                 new(OpCodes.Ldloc_S, 22),
                 new(OpCodes.Ldloc_S, 17),
                 new(OpCodes.Call, print),
             });
         }
-        var insertion2 = codes.FindIndex((a, b) => a.Is(OpCodes.Ldc_I4_1) && b.IsStLoc_S(4));
-        if (insertion2 != -1)
+        // 代码 flag2 = true
+        insertPos = codes.FindIndex((a, b) => a.Is(OpCodes.Ldc_I4_1) && b.IsStLoc_S(4));
+        if (insertPos != -1)
         {
-            codes.InsertRange(insertion2, new List<CodeInstruction> {
+            insertions++;
+            codes.InsertRange(insertPos, new List<CodeInstruction> {
                 new(OpCodes.Ldstr, "固定灵气"),
                 new(OpCodes.Ldloc_3),
                 new(OpCodes.Call, print),
@@ -55,7 +73,7 @@ public class SetChoiceSkill_Debug {
                 new(OpCodes.Call, print),
             });
         }
-        if (insertion != -1 && insertion2 != -1)
+        if (insertions == 3)
             PatchPlugin.Logger.LogInfo("override add debug info");
         return codes;
     }
