@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using HarmonyLib;
+using JSONClass;
 using UniqueCream.MCSWorldExpand.AvatarExpand;
 using UniqueCream.MCSWorldExpand.BattleExpand.Patch;
 using Unnamed42.ModPatches.Utils;
@@ -31,7 +33,7 @@ public class McsWorldExpand_Patch
         codes.RemoveRange(replaceStart, replaceEnd - replaceStart);
         codes.InsertRange(replaceStart, new List<CodeInstruction>() {
             // avatarData
-            new(OpCodes.Ldloc_1), 
+            new(OpCodes.Ldloc_1),
             // value = GetToopTip(avatarData)
             new(OpCodes.Call, typeof(McsWorldExpand_Patch).GetMethod("GetToolTip", BindingFlags.Public | BindingFlags.Static)),
             // var text = value
@@ -62,5 +64,37 @@ public class McsWorldExpand_Patch
             sb.AppendFormat("血气：{0}/{1}", avatarData.XueQi.Now, avatarData.XueQi.Max);
         }
         return sb.ToString();
+    }
+
+    [HarmonyTranspiler]
+    [HarmonyPatch(typeof(NPCUseItem), nameof(NPCUseItem.UseItem))]
+    public static IEnumerable<CodeInstruction> UseItem_OutOfBound_Fix(IEnumerable<CodeInstruction> ins)
+    {
+        if (!PatchPlugin.Instance.Enable_WorldExpand_OutOfBound_Patch.Value)
+        {
+            PatchPlugin.Logger.LogInfo("禁用世界拓展-越界异常修复，跳过");
+            return ins;
+        }
+        var codes = ins.ToList();
+        var seid = AccessTools.Field(typeof(_ItemJsonData), nameof(_ItemJsonData.seid));
+        List<int> _ = null;
+        var elementAtOrDefault = SymbolExtensions.GetMethodInfo(() => _.ElementAtOrDefault(0));
+        var listGetItem = AccessTools.Method(typeof(List<int>), "get_Item");
+        var start = -1;
+        do
+        {
+            // 将 itemJsonData.seid[0 or 1] 替换成 itemJsonData.seid.ElementAtOrDefault(0 or 1)
+            // 世界拓展新增的资质丹/属性丹都没有seid，世界拓展用了prefix拦截UseDanYao，这类物品会跳过。
+            // 但是函数入参求值 this.UseDanYao(npcID, item, itemJsonData.seid[0]) 不会跳过，导致越界异常
+            start = codes.FindIndex(start + 1, (a, b, c) =>
+                a.Is(OpCodes.Ldfld, seid) && c.Is(OpCodes.Callvirt, listGetItem));
+            if (start != -1)
+            {
+                codes[start + 2].operand = OpCodes.Call;
+                codes[start + 2].operand = elementAtOrDefault;
+            }
+        } while (start != -1);
+        PatchPlugin.Logger.LogInfo("已修补世界拓展-丹药使用");
+        return codes;
     }
 }
