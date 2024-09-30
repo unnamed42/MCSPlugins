@@ -1,0 +1,68 @@
+{
+	"96": {
+		"id": 96,
+		"LianDan": [
+			1198,
+			1225
+		],
+		"LianQi": [
+			1198
+		],
+		"CaiJi": [
+			171,
+			181,
+			192
+		],
+		"CaiKuang": [
+			192
+		],
+		"MiJi": [
+			1232
+		],
+		"FaBao": [
+			1202
+		],
+		"GuangChang": [
+			1191,
+			1201,
+			1221,
+			1231,
+			1291
+		],
+		"DaDian": [
+			1002
+		],
+		"DongShiGuFangShi": [
+			162
+		],
+		"TianXingChengFangShi": [
+			1236
+		],
+		"HaiShangFangShi": [
+			1305,
+			1312
+		],
+		"DongShiGuPaiMai": [
+			163
+		],
+		"TianJiGePaiMai": [
+			1212
+		],
+		"HaiShangPaiMai": [
+			1315,
+			1325
+		],
+		"NanYaChengPaiMai": [
+			1304
+		],
+		"YaoDian": [
+			1192
+		],
+		"GangKou": [
+			2901
+		],
+		"DongFu": [
+			101
+		]
+	}
+}

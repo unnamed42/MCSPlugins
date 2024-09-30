@@ -52,7 +52,7 @@ public class ElementalMastery_SetChoiceSkill_Patch
             new CodeInstruction(OpCodes.Ldloc, 8).Also(it => codes[skillLoopEnd+2].MoveLabelsTo(it)),
             new(OpCodes.Ldloc, 5),
             new(OpCodes.Callvirt, typeof (JSONObject).GetMethod("get_Count", BindingFlags.Instance|BindingFlags.Public)),
-            new(OpCodes.Bge, gen.DefineLabel().Also(label => codes[skillLoopEnd].labels.Add(label))),
+            new(OpCodes.Bge, gen.DefineLabel().Also(it => codes[skillLoopEnd].labels.Add(it))),
         });
         // 找到 for (int index = 0; index < 6; ++index) 的循环条件体
         var secondLoopCond = codes.FindIndex(skillLoopEnd, (a, b, c) =>

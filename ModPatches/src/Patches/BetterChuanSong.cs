@@ -16,10 +16,4 @@ public class BetterChuanSong_Lingjie_Patch
         ___CanWarpSceneNameList.Add("天阳城");
     }
 
-    public static void Finalizer (System.Exception __exception) {
-        var trace = new System.Diagnostics.StackTrace(__exception, true);
-        var frame = trace.GetFrame(0);
-        UnityExplorer.ExplorerCore.Log($"{frame.GetFileName()}{frame.GetFileLineNumber()}");
-    }
-
 }

@@ -8,6 +8,12 @@ public static class Extensions
     public static T Get<K, T>(this IDictionary<K, T> dict, K k, T fallback = default) =>
         dict.TryGetValue(k, out var result) ? result : fallback;
 
+    public static void Deconstruct<K, V>(this KeyValuePair<K, V> pair, out K key, out V value)
+    {
+        key = pair.Key;
+        value = pair.Value;
+    }
+
     public static void AddIfAbsent<K, T>(this IDictionary<K, T> dict, K k, T t)
     {
         if (!dict.ContainsKey(k)) dict[k] = t;

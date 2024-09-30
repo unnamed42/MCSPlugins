@@ -1,0 +1,39 @@
+{
+    "96": {
+        "id": 96,
+        "CaiJi": 0,
+        "CaiKuang": 0,
+        "XunLuo": 0,
+        "LingHe": 26,
+        "CaiJiDian": [],
+        "CaiKuangDian": [],
+        "XunLuoDian": [],
+        "LingHeDian1": [
+            18,
+            31,
+            93
+        ],
+        "LingHeDian2": [
+            99,
+            110,
+            123
+        ],
+        "LingHeDian3": [
+            6,
+            40,
+            112
+        ],
+        "LingHeDian4": [
+            37,
+            102,
+            130
+        ],
+        "LingHeDian5": [
+            11,
+            105
+        ],
+        "LingHeDian6": [
+            29
+        ]
+    }
+}

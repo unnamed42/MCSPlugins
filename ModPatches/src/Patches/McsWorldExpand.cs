@@ -77,8 +77,7 @@ public class McsWorldExpand_Patch
         }
         var codes = ins.ToList();
         var seid = AccessTools.Field(typeof(_ItemJsonData), nameof(_ItemJsonData.seid));
-        List<int> _ = null;
-        var elementAtOrDefault = SymbolExtensions.GetMethodInfo(() => _.ElementAtOrDefault(0));
+        var elementAtOrDefault = SymbolExtensions.GetMethodInfo(() => ((List<int>)null).ElementAtOrDefault(0));
         var listGetItem = AccessTools.Method(typeof(List<int>), "get_Item");
         var start = -1;
         do
@@ -86,7 +85,7 @@ public class McsWorldExpand_Patch
             // 将 itemJsonData.seid[0 or 1] 替换成 itemJsonData.seid.ElementAtOrDefault(0 or 1)
             // 世界拓展新增的资质丹/属性丹都没有seid，世界拓展用了prefix拦截UseDanYao，这类物品会跳过。
             // 但是函数入参求值 this.UseDanYao(npcID, item, itemJsonData.seid[0]) 不会跳过，导致越界异常
-            start = codes.FindIndex(start + 1, (a, b, c) =>
+            start = codes.FindIndex(start + 1, (a, _, c) =>
                 a.Is(OpCodes.Ldfld, seid) && c.Is(OpCodes.Callvirt, listGetItem));
             if (start != -1)
             {
