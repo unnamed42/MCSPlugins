@@ -12,6 +12,8 @@ using UniqueCream.MCSWorldExpand.NpcExpand.Ctr;
 using UniqueCream.MCSWorldExpand.NpcExpand.Patch.NoteBookPatch;
 using UniqueCream.MCSWorldExpand.DataClass.ItemXiShou;
 using Unnamed42.ModPatches.Utils;
+using UniqueCream.MCSWorldExpand.NpcExpand;
+using System.Linq;
 
 namespace Unnamed42.ModPatches.Patches;
 
@@ -71,8 +73,9 @@ public class MoreNpcInfo_McsWorldExpand_Patch
         return false;
     }
 
-    // 从UniqueCream.MCSWorldExpand.ItemExpand.LianHua.NpcEffect.NpcEffects里找就行
-    public static Dictionary<int, string> 效果 = new Dictionary<int, string> {
+    // 从UniqueCream.MCSWorldExpand.ItemExpand.LianHua.NpcEffect.NpcEffects里找
+    public static readonly Dictionary<int, string> 效果 = new()
+    {
         // {24, "战斗"},
         // {21,"玩家buff"},
         {25,"天赋药"},
@@ -84,6 +87,7 @@ public class MoreNpcInfo_McsWorldExpand_Patch
         {4,"丹田药"},
         {15,"遁速药"},
         {10,"修为药"},
+        {13,"悟性药"},
         {12,"血量上限药"},
         {11,"血量药"},
         {7,"经脉上限药"},
@@ -103,42 +107,80 @@ public class MoreNpcInfo_McsWorldExpand_Patch
         {27,"灵力药"}, // 随机灵力
     };
 
+    private static readonly Dictionary<int, string> 原版效果 = new()
+    {
+      { 0, "其他药" },
+      { 4, "修为药" },
+      { 5, "神识药" },
+      { 6, "气血药" },
+      { 7, "寿元药" },
+      { 9, "资质药" },
+      { 10, "悟性药" },
+      { 11, "遁速药" },
+      { 25, "悟道经验药" },
+      { 26, "悟道点药" },
+      { 37, "避劫丹" }
+    };
+
     // 以下代码修改自 更多NPC信息
+    private static void SetVanillaUseCount(UINPCData npc, Dictionary<string, string> usedInfo)
+    {
+        var usedItem = npc?.json?["useItem"];
+        if (usedItem?.IsNull == true) return;
+        var hasNaiYao = npc.json["wuDaoSkillList"].ToList().Contains(2131);
+        foreach (var itemId in usedItem.keys)
+        {
+            if (!_ItemJsonData.DataDict.TryGetValue(int.Parse(itemId), out var item))
+            {
+                PatchPlugin.Logger.LogWarning($"未能找到物品{itemId}信息");
+                continue;
+            }
+            var canUse = item.CanUse * (hasNaiYao ? 2 : 1);
+            if (canUse > 0)
+            {
+                var seid = item.seid.ElementAtOrDefault(itemId == "5523" ? 1 : 0);
+                var effectName = 原版效果.Get(seid, "未知药");
+                var content = $"{item.name}({usedItem[itemId].I}/{canUse})  ";
+                if (usedInfo.ContainsKey(effectName))
+                    usedInfo[effectName] += content;
+                else
+                    usedInfo.Add(effectName, content);
+            }
+        }
+    }
+
+    private static void SetWorldExpandUseCount(NpcExpandData npc, Dictionary<string, string> usedInfo)
+    {
+        var xiShouItems = npc?.XiShouItemCountDic;
+        if (xiShouItems?.Count == 0) return;
+        foreach (var (itemId, used) in xiShouItems)
+        {
+            if (!ItemXiShouJsonData.DataDict.TryGetValue(itemId, out var item))
+            {
+                PatchPlugin.Logger.LogWarning($"未能找到世界拓展物品{itemId}信息");
+                continue;
+            }
+            var effectName = item.Effect.FirstIn(效果) ?? "未知药";
+            var canUse = npc.GetCanLianHuaCount(itemId) + used;
+            var content = $"{item.Name}({used}/{canUse})  ";
+            if (usedInfo.ContainsKey(effectName))
+                usedInfo[effectName] += content;
+            else
+                usedInfo.Add(effectName, content);
+        }
+    }
+
     public static void MoreNPCInfo_NaiYaoInfo(UINPCEventPanel __instance)
     {
         if (!MoreNPCInfo.ShowNaiYaoInfo.Value)
             return;
         var usedInfo = new Dictionary<string, string>();
         var npc = UINPCJiaoHu.Inst.InfoPanel.npc;
-        var xiShouItems = NpcExpandControl.Instance.GetNpcExpandData(npc.ID)?.XiShouItemCountDic;
-        if (xiShouItems?.Count == 0)
-            return;
-        var hasNaiYao = npc.json["wuDaoSkillList"].ToList().Contains(2131);
-        foreach (var (itemId, used) in xiShouItems)
-        {
-            var xiShouItem = ItemXiShouJsonData.DataDict.Get(itemId);
-            var item = _ItemJsonData.DataDict.Get(itemId);
-            if (xiShouItem == null || item == null)
-            {
-                PatchPlugin.Logger.LogWarning($"未能找到物品{itemId}信息");
-                continue;
-            }
-            var effectName = xiShouItem.Effect.FirstIn(效果) ?? "未知";
-            // 暂时不知道从哪里取草药的使用上限
-            var canUse = item.CanUse == 0 ? 1 : item.CanUse * (hasNaiYao ? 2 : 1);
-            var content = $"{xiShouItem.Name}({used}/{canUse})  ";
-            if (usedInfo.ContainsKey(effectName))
-            {
-                usedInfo[effectName] += content;
-            }
-            else
-            {
-                usedInfo[effectName] = content;
-            }
-        }
+        var npcExpandData = NpcExpandControl.Instance.GetNpcExpandData(npc.ID);
+        SetVanillaUseCount(npc, usedInfo);
+        SetWorldExpandUseCount(npcExpandData, usedInfo);
         if (usedInfo.Count > 0)
         {
-            // var DanYaoSeidToCN = AccessTools.FieldRefAccess<Dictionary<int, string>>(typeof(MoreNPCInfo), "DanYaoSeidToCN").Invoke();
             foreach (var (type, content) in usedInfo)
             {
                 Transform transform = UnityEngine.Object.Instantiate(__instance.SVItemPrefab, __instance.ContentRT).transform;

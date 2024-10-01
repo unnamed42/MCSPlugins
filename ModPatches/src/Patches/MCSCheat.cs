@@ -23,17 +23,23 @@ public class MCSCheat_Patch
             .Where(asm => asm.GetName().Name == "MCSCheat" && asm.GetType("MCSCheat.MCSCheat") != null)
             .FirstOrDefault();
         var h = new Harmony($"Unnamed42.ModPatches.{nameof(MCSCheat_Patch)}");
-        (new Type[] {
-            typeof(MCSCheat_ElementalMastery_Patch),
-            typeof(MCSCheat_Lingjie_Patch),
-        }).ForEach(type =>
+        try
         {
-            var (tooltip, can) = ModIdMethods.CanApplyPatch(type);
-            if (can)
-                type.GetMethod("Setup", BindingFlags.Public | BindingFlags.Static).Invoke(null, new object[] { h });
-            PatchPlugin.Logger.LogInfo($"已应用宵夜修改器补丁{type.Name}");
-        });
-        executed = true;
+            (new Type[] {
+                typeof(MCSCheat_ElementalMastery_Patch),
+                typeof(MCSCheat_Lingjie_Patch),
+            }).ForEach(type =>
+            {
+                var (tooltip, can) = ModIdMethods.CanApplyPatch(type);
+                if (can)
+                    type.GetMethod("Setup", BindingFlags.Public | BindingFlags.Static).Invoke(null, new object[] { h });
+                PatchPlugin.Logger.LogInfo($"已应用宵夜修改器补丁{type.Name}");
+            });
+        }
+        finally
+        {
+            executed = true;
+        }
     }
 
 }
