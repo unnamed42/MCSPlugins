@@ -33,7 +33,7 @@ public class MCSCheat_Patch
                 var (tooltip, can) = ModIdMethods.CanApplyPatch(type);
                 if (can)
                     type.GetMethod("Setup", BindingFlags.Public | BindingFlags.Static).Invoke(null, new object[] { h });
-                PatchPlugin.Logger.LogInfo($"已应用宵夜修改器补丁{type.Name}");
+                PatchPlugin.LogInfo($"已应用宵夜修改器补丁{type.Name}");
             });
         }
         finally

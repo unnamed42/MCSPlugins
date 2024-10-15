@@ -23,7 +23,7 @@ public class ExpectedDate_Lingjie_Patch
         var match = Regex.Match(costTime, @"^((?<Year>\d+)年)?((?<Month>\d+)月)?((?<Day>\d+)日)?$");
         if (!match.Success)
         {
-            PatchPlugin.Logger.LogWarning($"未能正确解析炼丹消耗日期：{costTime}");
+            PatchPlugin.LogWarning($"未能正确解析炼丹消耗日期：{costTime}");
             return false;
         }
         int y = GetDatePart(match, "Year"), m = GetDatePart(match, "Month"), d = GetDatePart(match, "Day");

@@ -10,8 +10,8 @@
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 
-*/obj
-*/bin
+**/obj
+**/bin
 */.vscode
 local/
 temp.cs

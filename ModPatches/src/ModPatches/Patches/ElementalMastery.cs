@@ -20,7 +20,7 @@ public class ElementalMastery_SetChoiceSkill_Patch
     {
         if (!PatchPlugin.Instance.Enable_ElementalMastery_Empty_Slot_Patch.Value)
         {
-            PatchPlugin.Logger.LogInfo("异灵气空槽修复-关闭，跳过");
+            PatchPlugin.LogInfo("异灵气空槽修复-关闭，跳过");
             return ins;
         }
         return new List<CodeInstruction> {
@@ -61,7 +61,7 @@ public class ElementalMastery_SetChoiceSkill_Patch
             return ins;
         // 更改循环上限 6 --> ElementalMastery.MAX
         codes[secondLoopCond + 1] = new CodeInstruction(OpCodes.Ldsfld, max);
-        PatchPlugin.Logger.LogInfo("ElementalMastery-SetChoiceSkill替换完成");
+        PatchPlugin.LogInfo("ElementalMastery-SetChoiceSkill替换完成");
         return codes;
     }
 }

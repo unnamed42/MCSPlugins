@@ -37,7 +37,7 @@ public class Lingjie_LingQi_Patch
             // if true continue
             new(OpCodes.Brtrue, gen.DefineLabel().Also(label => codes[loopIncrement].labels.Add(label))),
         });
-        PatchPlugin.Logger.LogInfo($"已修补灵界-同系灵气计算跳过鬼魔灵气");
+        PatchPlugin.LogInfo($"已修补灵界-同系灵气计算跳过鬼魔灵气");
         return codes;
     }
 

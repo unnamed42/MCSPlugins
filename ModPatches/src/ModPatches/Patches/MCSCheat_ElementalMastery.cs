@@ -17,14 +17,14 @@ public class MCSCheat_ElementalMastery_Patch
     {
         if (ElementalMastery.ElementalMastery.MAX == (int)LingQiType.Count)
         {
-            PatchPlugin.Logger.LogInfo("未注册新类型灵气，跳过补丁");
+            PatchPlugin.LogInfo("未注册新类型灵气，跳过补丁");
             return;
         }
         {
             var patchTarget = AccessTools.Method(MCSCheat_Patch.cheat.GetType("MCSCheat.PageFight"), "ChangeLingQiGUI");
             var patch = AccessTools.Method(typeof(MCSCheat_ElementalMastery_Patch), nameof(ChangeLingQiGUI_Prefix));
             h.Patch(patchTarget, prefix: new HarmonyMethod(patch));
-            PatchPlugin.Logger.LogInfo("已修补修改器战斗界面-灵气");
+            PatchPlugin.LogInfo("已修补修改器战斗界面-灵气");
         }
         {
             var patchTarget = AccessTools.Method(MCSCheat_Patch.cheat.GetType("MCSCheat.PagePlayer"), "LingGenGUI");
@@ -68,7 +68,7 @@ public class MCSCheat_ElementalMastery_Patch
                 yield return new CodeInstruction(OpCodes.Ldarg_0);
                 yield return new CodeInstruction(OpCodes.Ldfld, baseWidthOption);
                 yield return new CodeInstruction(OpCodes.Call, patch);
-                PatchPlugin.Logger.LogInfo("已修补修改器灵根界面");
+                PatchPlugin.LogInfo("已修补修改器灵根界面");
             }
             yield return c;
         }

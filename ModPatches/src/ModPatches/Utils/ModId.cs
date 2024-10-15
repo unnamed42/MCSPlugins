@@ -20,11 +20,14 @@ public enum ModId : long
     UnityExplorer = 2824615654,
     魔气作为同系灵气 = 2927207638,
     宵夜工具库 = 2824332242, // XYModLib
+    炼丹显示药性 = 2939849884, // LianDanShowYaoZhi
+    七星起源 = 3067401882, // QXScene, Ancient
+    JTools = 2951535735, // TierneyJohn.MiChangSheng.JTools
 }
 
 public static class ModIdMethods
 {
-    private static Dictionary<ModId, bool> subscribed;
+    private static readonly Dictionary<ModId, bool> subscribed;
 
     static ModIdMethods()
     {

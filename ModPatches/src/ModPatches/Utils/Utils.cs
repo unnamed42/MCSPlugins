@@ -14,6 +14,14 @@ public static class Extensions
         value = pair.Value;
     }
 
+    public static IEnumerable<KeyValuePair<string, JSONObject>> Entries(this JSONObject json)
+    {
+        if (!json.IsObject)
+            yield break;
+        for (int i = 0; i < json.list.Count; i++)
+            yield return new(json.keys[i], json.list[i]);
+    }
+
     public static void AddIfAbsent<K, T>(this IDictionary<K, T> dict, K k, T t)
     {
         if (!dict.ContainsKey(k)) dict[k] = t;

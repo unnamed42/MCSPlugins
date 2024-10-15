@@ -74,7 +74,7 @@ public class SetChoiceSkill_Debug
             });
         }
         if (insertions == 3)
-            PatchPlugin.Logger.LogInfo("override add debug info");
+            PatchPlugin.LogInfo("override add debug info");
         return codes;
     }
 }

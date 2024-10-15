@@ -37,7 +37,7 @@ public class MCSCheat_Lingjie_Patch
                 yield return new CodeInstruction(OpCodes.Ldarg_0);
                 yield return new CodeInstruction(OpCodes.Ldfld, baseWidthOption);
                 yield return new CodeInstruction(OpCodes.Call, patch);
-                PatchPlugin.Logger.LogInfo("已修补修改器杂项界面");
+                PatchPlugin.LogInfo("已修补修改器杂项界面");
             }
             yield return c;
         }

@@ -24,9 +24,6 @@ public static class TranspilerExtensions
         return -1;
     }
 
-    public static int FindIndex(this IList<CodeInstruction> l, Func<CodeInstruction, CodeInstruction, bool> pred) =>
-        FindIndex(l, 0, pred);
-
     public static int FindIndex(this IList<CodeInstruction> l, int start, Func<CodeInstruction, CodeInstruction, CodeInstruction, bool> pred)
     {
         for (int i = start; i < l.Count - 2; i++)
@@ -35,6 +32,10 @@ public static class TranspilerExtensions
         }
         return -1;
     }
+
+    public static int FindIndex(this IList<CodeInstruction> l, Func<CodeInstruction, CodeInstruction, bool> pred) =>
+        FindIndex(l, 0, pred);
+
 
     public static int FindIndex(this IList<CodeInstruction> l, Func<CodeInstruction, CodeInstruction, CodeInstruction, bool> pred) =>
         FindIndex(l, 0, pred);

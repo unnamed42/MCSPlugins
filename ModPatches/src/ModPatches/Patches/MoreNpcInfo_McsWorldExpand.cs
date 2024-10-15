@@ -132,7 +132,7 @@ public class MoreNpcInfo_McsWorldExpand_Patch
         {
             if (!_ItemJsonData.DataDict.TryGetValue(int.Parse(itemId), out var item))
             {
-                PatchPlugin.Logger.LogWarning($"未能找到物品{itemId}信息");
+                PatchPlugin.LogWarning($"未能找到物品{itemId}信息");
                 continue;
             }
             var canUse = item.CanUse * (hasNaiYao ? 2 : 1);
@@ -157,7 +157,7 @@ public class MoreNpcInfo_McsWorldExpand_Patch
         {
             if (!ItemXiShouJsonData.DataDict.TryGetValue(itemId, out var item))
             {
-                PatchPlugin.Logger.LogWarning($"未能找到世界拓展物品{itemId}信息");
+                PatchPlugin.LogWarning($"未能找到世界拓展物品{itemId}信息");
                 continue;
             }
             var effectName = item.Effect.FirstIn(效果) ?? "未知药";

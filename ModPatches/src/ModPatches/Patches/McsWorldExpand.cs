@@ -39,7 +39,7 @@ public class McsWorldExpand_Patch
             // var text = value
             new(OpCodes.Stloc_2),
         });
-        PatchPlugin.Logger.LogInfo("已替换世界拓展战斗界面-经脉血气提示");
+        PatchPlugin.LogInfo("已替换世界拓展战斗界面-经脉血气提示");
         return codes;
     }
 
@@ -72,7 +72,7 @@ public class McsWorldExpand_Patch
     {
         if (!PatchPlugin.Instance.Enable_WorldExpand_OutOfBound_Patch.Value)
         {
-            PatchPlugin.Logger.LogInfo("禁用世界拓展-越界异常修复，跳过");
+            PatchPlugin.LogInfo("禁用世界拓展-越界异常修复，跳过");
             return ins;
         }
         var codes = ins.ToList();
@@ -93,7 +93,7 @@ public class McsWorldExpand_Patch
                 codes[start + 2].operand = elementAtOrDefault;
             }
         } while (start != -1);
-        PatchPlugin.Logger.LogInfo("已修补世界拓展-丹药使用");
+        PatchPlugin.LogInfo("已修补世界拓展-丹药使用");
         return codes;
     }
 }
