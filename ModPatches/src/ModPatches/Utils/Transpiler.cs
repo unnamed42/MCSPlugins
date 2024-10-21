@@ -15,6 +15,13 @@ public static class TranspilerExtensions
     public static bool IsLdLoc_S(this CodeInstruction ins, int offset) =>
         ins.opcode == OpCodes.Ldloc_S && offset == (ins.operand as LocalBuilder)?.LocalIndex;
 
+    public static CodeInstruction Set(this CodeInstruction ins, OpCode code, object operand = null)
+    {
+        ins.opcode = code;
+        ins.operand = operand;
+        return ins;
+    }
+
     public static int FindIndex(this IList<CodeInstruction> l, int start, Func<CodeInstruction, CodeInstruction, bool> pred)
     {
         for (int i = start; i < l.Count - 1; i++)

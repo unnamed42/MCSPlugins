@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using BepInEx;
 using BepInEx.Configuration;
-using BepInEx.Logging;
 using HarmonyLib;
 using Unnamed42.ModPatches.Debug;
 using Unnamed42.ModPatches.Patches;

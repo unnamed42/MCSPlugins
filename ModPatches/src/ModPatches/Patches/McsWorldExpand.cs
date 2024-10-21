@@ -88,10 +88,7 @@ public class McsWorldExpand_Patch
             start = codes.FindIndex(start + 1, (a, _, c) =>
                 a.Is(OpCodes.Ldfld, seid) && c.Is(OpCodes.Callvirt, listGetItem));
             if (start != -1)
-            {
-                codes[start + 2].operand = OpCodes.Call;
-                codes[start + 2].operand = elementAtOrDefault;
-            }
+                codes[start + 2].Set(OpCodes.Call, elementAtOrDefault);
         } while (start != -1);
         PatchPlugin.LogInfo("已修补世界拓展-丹药使用");
         return codes;

@@ -46,7 +46,7 @@ public class ElementalMastery_SetChoiceSkill_Patch
             return ins;
         var max = typeof(ElementalMastery.ElementalMastery).GetField("MAX", BindingFlags.Static | BindingFlags.Public);
         // 更改循环上限 6 --> ElementalMastery.MAX
-        codes[skillLoopEnd + 1] = new CodeInstruction(OpCodes.Ldsfld, max);
+        codes[skillLoopEnd + 1].Set(OpCodes.Ldsfld, max);
         // 插入到循环体开头 if(key >= jsonObject.Count) continue;
         codes.InsertRange(skillCostLoopStart + 3, new List<CodeInstruction> {
             new CodeInstruction(OpCodes.Ldloc, 8).Also(it => codes[skillLoopEnd+2].MoveLabelsTo(it)),
@@ -60,7 +60,7 @@ public class ElementalMastery_SetChoiceSkill_Patch
         if (secondLoopCond == -1)
             return ins;
         // 更改循环上限 6 --> ElementalMastery.MAX
-        codes[secondLoopCond + 1] = new CodeInstruction(OpCodes.Ldsfld, max);
+        codes[secondLoopCond + 1].Set(OpCodes.Ldsfld, max);
         PatchPlugin.LogInfo("ElementalMastery-SetChoiceSkill替换完成");
         return codes;
     }
