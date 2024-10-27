@@ -1,27 +1,46 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 using HarmonyLib;
+using MCSCheat;
 using Unnamed42.ModPatches.Utils;
+using XYModLib;
 
 namespace Unnamed42.ModPatches.Patches;
 
 [ModDependency(ModId.宵夜工具库, ModId.宵夜修改器)]
 public class MCSCheat_Patch
 {
-
-    private static bool executed = false;
     internal static Assembly cheat;
 
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(MainUIMag), "Start")]
-    public static void Start_Postfix()
+    [HarmonyTargetMethod]
+    public static MethodBase TargetMethod()
     {
-        if (executed) return;
+        var cheatInit = AccessTools.Method(typeof(CheatLoader), "Init");
+        var stateMachine = cheatInit.GetCustomAttribute<AsyncStateMachineAttribute>();
+        return AccessTools.Method(stateMachine.StateMachineType, "MoveNext");
+    }
 
-        cheat = AppDomain.CurrentDomain.GetAssemblies()
-            .Where(asm => asm.GetName().Name == "MCSCheat" && asm.GetType("MCSCheat.MCSCheat") != null)
-            .FirstOrDefault();
+    [HarmonyTranspiler]
+    public static IEnumerable<CodeInstruction> StatePatch(IEnumerable<CodeInstruction> ins)
+    {
+        var load = SymbolExtensions.GetMethodInfo(() => ((AppDomain)null).Load((byte[])null));
+        var codes = ins.ToList();
+        var idx = codes.FindIndex((a, b) => a.Calls(load) && b.IsStLoc_S(10));
+        if (idx != -1)
+            codes.InsertRange(idx + 2, new[] {
+                new CodeInstruction(OpCodes.Ldloc_S, 10),
+                CodeInstruction.Call(() => SetupPatches(null)),
+            });
+        return codes;
+    }
+
+    public static void SetupPatches(Assembly cheat)
+    {
+        MCSCheat_Patch.cheat = cheat;
         var h = new Harmony($"Unnamed42.ModPatches.{nameof(MCSCheat_Patch)}");
         try
         {
@@ -36,10 +55,19 @@ public class MCSCheat_Patch
                 PatchPlugin.LogInfo($"已应用宵夜修改器补丁{type.Name}");
             });
         }
-        finally
+        catch (Exception e)
         {
-            executed = true;
+            PatchPlugin.LogError(e);
         }
     }
+
+    internal static void AddEnumSelection(EnumSelectGUI gui, IEnumerable<string> options) {
+        var name = new Traverse(gui).Field<string[]>("EnumNames");
+        var newNames = name.Value.ToList().Also(it => it.AddRange(options));
+        name.Value = newNames.ToArray();
+    }
+
+    internal static void AddEnumSelection(EnumSelectGUI gui, params string[] options) =>
+        AddEnumSelection(gui, options.AsEnumerable());
 
 }

@@ -240,6 +240,10 @@
       <HintPath>$(McsPath)\..\..\workshop\content\1189490\2824332242\plugins\XYModLib.dll</HintPath>
       <Private>False</Private>
     </Reference>
+   <Reference Include="MCSCheat">
+      <HintPath>$(McsPath)\..\..\workshop\content\1189490\2825114586\plugins\MCSCheatPlugin.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="QXScene.MCS">
       <HintPath>$(McsPath)\..\..\workshop\content\1189490\3067401882\plugins\QXScene.dll</HintPath>
       <Private>False</Private>

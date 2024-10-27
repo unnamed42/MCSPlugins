@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection.Emit;
 using HarmonyLib;
 using KBEngine;
@@ -19,7 +20,21 @@ public class MCSCheat_Lingjie_Patch
             var patch = AccessTools.Method(typeof(MCSCheat_Lingjie_Patch), nameof(MiscGUI_Patch));
             h.Patch(patchTarget, transpiler: new HarmonyMethod(patch));
         }
+        {
+            var patchTarget = AccessTools.Constructor(MCSCheat_Patch.cheat.GetType("MCSCheat.PageItem"));
+            var patch = AccessTools.Method(typeof(MCSCheat_Lingjie_Patch), nameof(PageItem_Postfix));
+            h.Patch(patchTarget, postfix: new HarmonyMethod(patch));
+            PatchPlugin.LogInfo("已增加更多物品品阶筛选");
+        }
+        {
+            var patchTarget = AccessTools.Constructor(MCSCheat_Patch.cheat.GetType("MCSCheat.PageGongFa"));
+            var patch = AccessTools.Method(typeof(MCSCheat_Lingjie_Patch), nameof(PageGongFa_Postfix));
+            h.Patch(patchTarget, postfix: new HarmonyMethod(patch));
+            PatchPlugin.LogInfo("已增加更多功法品阶筛选");
+        }
     }
+
+    #region 灵界声望
 
     public static IEnumerable<CodeInstruction> MiscGUI_Patch(IEnumerable<CodeInstruction> ins)
     {
@@ -66,4 +81,16 @@ public class MCSCheat_Lingjie_Patch
             GUILayout.EndHorizontal();
         }
     }
+
+    #endregion
+
+    #region 品阶筛选
+
+    public static void PageItem_Postfix(EnumSelectGUI ___qualitySelectGUI) =>
+        MCSCheat_Patch.AddEnumSelection(___qualitySelectGUI, "七品", "八品", "九品");
+
+    public static void PageGongFa_Postfix(EnumSelectGUI ___qualitySelectGUI) =>
+        MCSCheat_Patch.AddEnumSelection(___qualitySelectGUI, "仙阶");
+
+    #endregion
 }

@@ -39,6 +39,7 @@ public class PatchPlugin : BaseUnityPlugin
             typeof(ModMichangSD_Lingjie_Patch),
             typeof(McsWorldExpand_Patch),
             typeof(Lingjie_LingQi_Patch),
+            typeof(Lingjie_Danfang_Patch),
             typeof(ElementalMastery_SetChoiceSkill_Patch),
             // typeof(RightClickQuickCast_Lingjie_Patch),
             typeof(MCSCheat_Patch),

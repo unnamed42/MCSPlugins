@@ -21,9 +21,9 @@ public class MCSCheat_ElementalMastery_Patch
             return;
         }
         {
-            var patchTarget = AccessTools.Method(MCSCheat_Patch.cheat.GetType("MCSCheat.PageFight"), "ChangeLingQiGUI");
-            var patch = AccessTools.Method(typeof(MCSCheat_ElementalMastery_Patch), nameof(ChangeLingQiGUI_Prefix));
-            h.Patch(patchTarget, prefix: new HarmonyMethod(patch));
+            var patchTarget = AccessTools.Constructor(MCSCheat_Patch.cheat.GetType("MCSCheat.PageFight"));
+            var patch = AccessTools.Method(typeof(MCSCheat_ElementalMastery_Patch), nameof(PageFight_Postfix));
+            h.Patch(patchTarget, postfix: new HarmonyMethod(patch));
             PatchPlugin.LogInfo("已修补修改器战斗界面-灵气");
         }
         {
@@ -33,24 +33,9 @@ public class MCSCheat_ElementalMastery_Patch
         }
     }
 
-    public static bool ChangeLingQiGUI_Prefix(EnumSelectGUI ___lingQiSelectGUI)
-    {
-        var names = new Traverse(___lingQiSelectGUI).Field("EnumNames");
-        var currValue = names.GetValue<string[]>();
-        if (currValue.Length != 7) // 全部 金 木 水 火 土 魔
-        {
-            return true;
-        }
-        var max = ElementalMastery.ElementalMastery.MAX;
-        var newNames = currValue.ToList();
-        var elements = ElementalMastery.ElementalMastery.Inst.Elements;
-        for (int i = (int)LingQiType.Count; i < max; i++)
-        {
-            newNames.Add(elements[i - (int)LingQiType.Count].name);
-        }
-        names.SetValue(newNames.ToArray());
-        return true;
-    }
+    public static void PageFight_Postfix(EnumSelectGUI ___lingQiSelectGUI) =>
+        MCSCheat_Patch.AddEnumSelection(___lingQiSelectGUI,
+            ElementalMastery.ElementalMastery.Inst.Elements.Select(e => e.name));
 
     public static IEnumerable<CodeInstruction> LingGenGUI_Patch(IEnumerable<CodeInstruction> ins)
     {
