@@ -8,7 +8,7 @@ using Unnamed42.ModPatches.Utils;
 namespace Unnamed42.ModPatches.Patches;
 
 [ModDependency(ModId.埋久工具库)]
-public class ElementalMastery_SetChoiceSkill_Patch
+public class ElementalMastery_EmptySlot_Patch
 {
 
     [HarmonyTargetMethod]
@@ -26,7 +26,7 @@ public class ElementalMastery_SetChoiceSkill_Patch
         return new List<CodeInstruction> {
             new(OpCodes.Ldarg_0),
             new(OpCodes.Ldarg_1),
-            new(OpCodes.Call, typeof(ElementalMastery_SetChoiceSkill_Patch).GetMethod(nameof(SetChoiceSkill_Patch), BindingFlags.Static|BindingFlags.Public)),
+            new(OpCodes.Call, typeof(ElementalMastery_EmptySlot_Patch).GetMethod(nameof(SetChoiceSkill_Patch), BindingFlags.Static|BindingFlags.Public)),
             new(OpCodes.Ret),
         };
     }
