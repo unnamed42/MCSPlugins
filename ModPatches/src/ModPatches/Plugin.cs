@@ -21,7 +21,7 @@ public class PatchPlugin : BaseUnityPlugin
 
     private void InitConfig()
     {
-        this.Enable_Lingjie_LingQi_Patch = Config.Bind("开关", "灵界-roll灵气补丁.测试", false, "【即时生效】埋久工具库将魔气和鬼气也加入同系灵气计算，此补丁将其移除");
+        this.Enable_Lingjie_LingQi_Patch = Config.Bind("开关", "灵界-roll灵气补丁", true, "【即时生效】埋久工具库将魔气和鬼气也加入同系灵气计算，此补丁将其移除");
         this.Enable_ElementalMastery_Empty_Slot_Patch = Config.Bind("开关", "埋久工具库-灵气空槽", true, "【重启生效】尝试修复异灵气导致左键roll灵气出现空槽问题");
         this.Enable_WorldExpand_OutOfBound_Patch = Config.Bind("开关", "世界拓展资质丹药抛异常修复", true, "【重启生效】尝试修复觅长生世界拓展新增的资质丹药导致游戏抛异常的问题");
         this.Enable_Debug = Config.Bind("开关", "输出更多debug信息", false, "【重启生效】输出更多debug信息，开发用。依赖于UnityExplorer");
@@ -34,15 +34,12 @@ public class PatchPlugin : BaseUnityPlugin
         var patches = new List<Type> {
             typeof(McsNpcManager_Patch),
             typeof(MoreNpcInfo_McsWorldExpand_Patch),
-            // typeof(BetterChuanSong_Lingjie_Patch),
             typeof(ExpectedDate_Lingjie_Patch),
             typeof(ModMichangSD_Lingjie_Patch),
             typeof(ModMichangSD_RememberQuality_Patch),
             typeof(McsWorldExpand_Patch),
-            typeof(Lingjie_LingQi_Patch),
             typeof(Lingjie_Danfang_Patch),
             typeof(ElementalMastery_EmptySlot_Patch),
-            // typeof(RightClickQuickCast_Lingjie_Patch),
             typeof(MCSCheat_Patch),
             typeof(QXScene_Patch),
         };

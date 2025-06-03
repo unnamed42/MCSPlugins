@@ -14,7 +14,6 @@ namespace Unnamed42.ModPatches.Patches;
 [ModDependency(ModId.世界拓展)]
 public class McsWorldExpand_Patch
 {
-
     [HarmonyTranspiler]
     [HarmonyPatch(typeof(UToolTipSkillTriggerPatch), nameof(UToolTipSkillTriggerPatch.OnPointerEnter_Patch))]
     public static IEnumerable<CodeInstruction> PatchToolTip(IEnumerable<CodeInstruction> ins)
@@ -35,7 +34,7 @@ public class McsWorldExpand_Patch
             // avatarData
             new(OpCodes.Ldloc_1),
             // value = GetToopTip(avatarData)
-            new(OpCodes.Call, typeof(McsWorldExpand_Patch).GetMethod("GetToolTip", BindingFlags.Public | BindingFlags.Static)),
+            CodeInstruction.Call(() => GetToolTip(null)),
             // var text = value
             new(OpCodes.Stloc_2),
         });

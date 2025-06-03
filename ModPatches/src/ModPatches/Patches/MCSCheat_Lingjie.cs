@@ -82,7 +82,7 @@ public class MCSCheat_Lingjie_Patch
         }
     }
 
-    #endregion
+    #endregion 灵界声望
 
     #region 品阶筛选
 
@@ -92,5 +92,5 @@ public class MCSCheat_Lingjie_Patch
     public static void PageGongFa_Postfix(EnumSelectGUI ___qualitySelectGUI) =>
         MCSCheat_Patch.AddEnumSelection(___qualitySelectGUI, "仙阶");
 
-    #endregion
+    #endregion 品阶筛选
 }

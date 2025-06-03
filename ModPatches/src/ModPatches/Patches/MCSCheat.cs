@@ -47,6 +47,7 @@ public class MCSCheat_Patch
             (new Type[] {
                 typeof(MCSCheat_ElementalMastery_Patch),
                 typeof(MCSCheat_Lingjie_Patch),
+                typeof(MCSCheat_WorldExpand_Patch),
             }).ForEach(type =>
             {
                 var (tooltip, can) = ModIdMethods.CanApplyPatch(type);
