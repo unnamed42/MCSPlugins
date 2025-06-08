@@ -34,12 +34,16 @@ public class FastPaimai : BaseUnityPlugin
     [HarmonyPatch(typeof(AvatarCtr), "AvatarAddPrice"), HarmonyTranspiler]
     public static IEnumerable<CodeInstruction> AddAvatarPrice_Patch(IEnumerable<CodeInstruction> ins)
     {
+        var getValue = AccessTools.PropertyGetter(instance.Wait_Time.GetType(), "Value");
         foreach (var code in ins)
         {
             if (code.Is(OpCodes.Ldc_R4, 0.75f))
-                yield return new CodeInstruction(OpCodes.Ldc_R4, FastPaimai.instance.Wait_Time.Value);
-            else
-                yield return code;
+            {
+                yield return CodeInstruction.LoadField(typeof(FastPaimai), nameof(instance));
+                yield return CodeInstruction.LoadField(typeof(FastPaimai), nameof(Wait_Time));
+                yield return new CodeInstruction(OpCodes.Callvirt, getValue);
+            }
+            else yield return code;
         }
     }
 }
