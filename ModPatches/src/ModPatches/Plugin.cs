@@ -18,6 +18,7 @@ public class PatchPlugin : BaseUnityPlugin
     internal ConfigEntry<bool> Enable_ElementalMastery_Empty_Slot_Patch;
     internal ConfigEntry<bool> Enable_Debug;
     internal ConfigEntry<bool> Enable_WorldExpand_OutOfBound_Patch;
+    internal ConfigEntry<bool> Enable_CyContactOptimization_MoreButton;
 
     private void InitConfig()
     {
@@ -25,6 +26,7 @@ public class PatchPlugin : BaseUnityPlugin
         this.Enable_ElementalMastery_Empty_Slot_Patch = Config.Bind("开关", "埋久工具库-灵气空槽", true, "【重启生效】尝试修复异灵气导致左键roll灵气出现空槽问题");
         this.Enable_WorldExpand_OutOfBound_Patch = Config.Bind("开关", "世界拓展资质丹药抛异常修复", true, "【重启生效】尝试修复觅长生世界拓展新增的资质丹药导致游戏抛异常的问题");
         this.Enable_Debug = Config.Bind("开关", "输出更多debug信息", false, "【重启生效】输出更多debug信息，开发用。依赖于UnityExplorer");
+        this.Enable_CyContactOptimization_MoreButton = Config.Bind("开关", "传音符联系人优化更多按钮", true, "【即时生效】传音符联系人优化添加更多按钮");
     }
 
     private void Awake()
@@ -42,6 +44,7 @@ public class PatchPlugin : BaseUnityPlugin
             typeof(ElementalMastery_EmptySlot_Patch),
             typeof(MCSCheat_Patch),
             typeof(QXScene_Patch),
+            typeof(CyContactOptimization_Patch),
         };
         if (this.Enable_Debug.Value)
         {

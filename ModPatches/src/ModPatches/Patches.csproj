@@ -220,6 +220,10 @@
       <HintPath>$(McsPath)\..\..\workshop\content\1189490\2939849884\plugins\LianDanShowYaoZhi.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Ventulus">
+      <HintPath>$(McsPath)\..\..\workshop\content\1189490\2935247227\plugins\CyContactOptimization.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="ModMichangSD">
       <HintPath>$(McsPath)\..\..\workshop\content\1189490\3282436282\plugins\ModMichangSD.dll</HintPath>
       <Private>False</Private>

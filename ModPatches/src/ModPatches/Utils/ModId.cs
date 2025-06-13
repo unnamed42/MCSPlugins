@@ -23,6 +23,7 @@ public enum ModId : long
     炼丹显示药性 = 2939849884, // LianDanShowYaoZhi
     七星起源 = 3067401882, // QXScene, Ancient
     JTools = 2951535735, // TierneyJohn.MiChangSheng.JTools
+    传音符联系人优化 = 2935247227, // CyContactOptimization
 }
 
 public static class ModIdMethods
