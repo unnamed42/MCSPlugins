@@ -5,7 +5,8 @@ using Unnamed42.ModPatches.Utils;
 
 namespace Unnamed42.ModPatches.Patches;
 
-[ModDependency(ModId.新交易助手, ModId.灵界)]
+[ModDependency(ModId.新交易助手)]
+[ModDependecyAnyOf(ModId.灵界, ModId.更多仙器神器圣器)]
 public class ModMichangSD_Lingjie_Patch
 {
 

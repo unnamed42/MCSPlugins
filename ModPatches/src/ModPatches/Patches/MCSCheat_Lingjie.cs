@@ -9,7 +9,7 @@ using XYModLib;
 
 namespace Unnamed42.ModPatches.Patches;
 
-[ModDependency(ModId.灵界)]
+[ModDependecyAnyOf(ModId.灵界, ModId.更多仙器神器圣器)]
 public class MCSCheat_Lingjie_Patch
 {
 

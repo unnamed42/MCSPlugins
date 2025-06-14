@@ -24,6 +24,7 @@ public enum ModId : long
     七星起源 = 3067401882, // QXScene, Ancient
     JTools = 2951535735, // TierneyJohn.MiChangSheng.JTools
     传音符联系人优化 = 2935247227, // CyContactOptimization
+    更多仙器神器圣器 = 3036262268, // Lingjie 修改版
 }
 
 public static class ModIdMethods
@@ -51,28 +52,35 @@ public static class ModIdMethods
 
     public static (string, bool) CanApplyPatch(Type type)
     {
-        var deps = type.GetCustomAttributes(typeof(ModDependency), false).FirstOrDefault() as ModDependency;
-        var conflicts = type.GetCustomAttributes(typeof(ModConflicts), false).FirstOrDefault() as ModConflicts;
-        var depsSatisfied = deps == null || deps.Requires?.All(mod => mod.IsActive()) == true;
-        var hasConflicts = conflicts?.Conflicts?.Any(mod => mod.IsActive()) == true;
+        var deps = type.GetCustomAttributes(typeof(ModDependency), false).Cast<ModDependency>().SelectMany(d => d.Requires);
+        var depsAnyOf = type.GetCustomAttributes(typeof(ModDependecyAnyOf), false).Cast<ModDependecyAnyOf>();
+        var conflicts = type.GetCustomAttributes(typeof(ModConflicts), false).Cast<ModConflicts>().SelectMany(c => c.Conflicts);
+        var depsSatisfied = deps.All(IsActive) && depsAnyOf.All(group => group.AnyOf.Any(IsActive));
+        var hasConflicts = conflicts.Any(IsActive);
         if (depsSatisfied && !hasConflicts)
         {
-            return ($"检测到 {FormatMods(deps?.Requires)}，已应用补丁 {type.Name}", true);
+            return ($"检测到 {FormatMods(deps, depsAnyOf)}，已应用补丁 {type.Name}", true);
         }
-        var tooltip = depsSatisfied ? "" : $"未满足全部依赖 {FormatMods(deps?.Requires)}";
+        var tooltip = depsSatisfied ? "" : $"未满足全部依赖 {FormatMods(deps, depsAnyOf)}";
         if (hasConflicts)
         {
             if (string.IsNullOrEmpty(tooltip))
             {
                 tooltip = "，";
             }
-            tooltip += $"存在冲突mod {FormatMods(conflicts?.Conflicts)}";
+            tooltip += $"存在冲突mod {FormatMods(conflicts)}";
         }
         return (tooltip + $"，跳过补丁 {type.Name}", false);
     }
 
-    private static string FormatMods(ModId[] mods) =>
-        mods?.Select(mod => $"{mod}({(long)mod})").Join(",");
+    private static string FormatMods(IEnumerable<ModId> mods, IEnumerable<ModDependecyAnyOf> anyOfGroups = null)
+    {
+        if (anyOfGroups != null)
+        {
+            mods = mods.Concat(anyOfGroups.SelectMany(group => group.AnyOf.Where(IsActive)));
+        }
+        return mods?.Select(mod => $"{mod}({(long)mod})").Join(",");
+    }
 }
 
 [AttributeUsage(AttributeTargets.Class)]
@@ -83,6 +91,17 @@ class ModDependency : Attribute
     public ModDependency(params ModId[] modIds)
     {
         Requires = modIds;
+    }
+}
+
+[AttributeUsage(AttributeTargets.Class)]
+class ModDependecyAnyOf : Attribute
+{
+    public ModId[] AnyOf { get; private set; }
+
+    public ModDependecyAnyOf(params ModId[] modIds)
+    {
+        AnyOf = modIds;
     }
 }
 

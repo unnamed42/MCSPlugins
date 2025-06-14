@@ -6,7 +6,7 @@ using Unnamed42.ModPatches.Utils;
 
 namespace Unnamed42.ModPatches.Patches;
 
-[ModDependency(ModId.灵界)]
+[ModDependecyAnyOf(ModId.灵界, ModId.更多仙器神器圣器)]
 public class Lingjie_Danfang_Patch
 {
 

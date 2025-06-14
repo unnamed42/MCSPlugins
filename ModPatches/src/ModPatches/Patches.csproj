@@ -204,10 +204,6 @@
       <HintPath>$(McsPath)\..\..\workshop\content\1189490\2893246439\plugins\ExpectedDate.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="MaiJiu.MCS.LingJie.Patch.LianDanPatch">
-      <HintPath>$(McsPath)\..\..\workshop\content\1189490\2968233692\plugins\LingJie.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Ventulus">
       <HintPath>$(McsPath)\..\..\workshop\content\1189490\2946826370\plugins\VTools.dll</HintPath>
       <Private>False</Private>

@@ -8,7 +8,8 @@ using Ventulus;
 
 namespace Unnamed42.ModPatches.Patches;
 
-[ModDependency(ModId.预计日期, ModId.灵界, ModId.微风的工具库)]
+[ModDependency(ModId.预计日期, ModId.微风的工具库)]
+[ModDependecyAnyOf(ModId.灵界, ModId.更多仙器神器圣器)]
 public class ExpectedDate_Lingjie_Patch
 {
     [HarmonyTargetMethod]
