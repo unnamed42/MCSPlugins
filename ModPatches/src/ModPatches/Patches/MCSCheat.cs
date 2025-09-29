@@ -62,7 +62,8 @@ public class MCSCheat_Patch
         }
     }
 
-    internal static void AddEnumSelection(EnumSelectGUI gui, IEnumerable<string> options) {
+    internal static void AddEnumSelection(EnumSelectGUI gui, IEnumerable<string> options)
+    {
         var name = new Traverse(gui).Field<string[]>("EnumNames");
         var newNames = name.Value.ToList().Also(it => it.AddRange(options));
         name.Value = newNames.ToArray();

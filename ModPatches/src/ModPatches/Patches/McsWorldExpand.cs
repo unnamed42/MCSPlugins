@@ -14,6 +14,15 @@ namespace Unnamed42.ModPatches.Patches;
 [ModDependency(ModId.世界拓展)]
 public class McsWorldExpand_Patch
 {
+
+    public static void Setup()
+    {
+        PatchPlugin.Instance.Enable_WorldExpand_OutOfBound_Patch.SettingChanged += (_, e) =>
+        {
+            HarmonyUtils.ReapplyPatch(typeof(NPCUseItem), nameof(NPCUseItem.UseItem));
+        };
+    }
+
     [HarmonyTranspiler]
     [HarmonyPatch(typeof(UToolTipSkillTriggerPatch), nameof(UToolTipSkillTriggerPatch.OnPointerEnter_Patch))]
     public static IEnumerable<CodeInstruction> PatchToolTip(IEnumerable<CodeInstruction> ins)
