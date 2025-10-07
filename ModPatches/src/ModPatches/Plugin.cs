@@ -20,6 +20,7 @@ public class PatchPlugin : BaseUnityPlugin
     internal ConfigEntry<bool> Enable_ElementalMastery_EmptySolt_Patch;
     internal ConfigEntry<bool> Enable_WorldExpand_OutOfBound_Patch;
     internal ConfigEntry<bool> Enable_CyContactOptimization_MoreButton;
+    internal ConfigEntry<bool> Enable_GUILayout_Scaling;
 
     private void InitConfig()
     {
@@ -28,6 +29,7 @@ public class PatchPlugin : BaseUnityPlugin
         this.Enable_ElementalMastery_EmptySolt_Patch = Config.Bind("开关", "埋久工具库-灵气空槽", true, "【即时生效】尝试修复异灵气导致左键roll灵气出现空槽问题");
         this.Enable_Debug = Config.Bind("开关", "输出更多debug信息", false, "【重启生效】输出更多debug信息，开发用。依赖于UnityExplorer");
         this.Enable_CyContactOptimization_MoreButton = Config.Bind("开关", "传音符联系人优化更多按钮", true, "【即时生效】传音符联系人优化添加更多按钮");
+        this.Enable_GUILayout_Scaling = Config.Bind("开关", "GUI缩放", true, "【即时生效】GUILayout绘制UI针对大于1080P屏幕缩放，比如宵夜修改器");
     }
 
     private void Awake()
@@ -46,6 +48,7 @@ public class PatchPlugin : BaseUnityPlugin
             typeof(MCSCheat_Patch),
             typeof(QXScene_Patch),
             typeof(CyContactOptimization_Patch),
+            typeof(XYModLib_Scaling_Patch),
         };
         if (this.Enable_Debug.Value)
         {
