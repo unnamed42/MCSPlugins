@@ -79,7 +79,11 @@ public static class ModIdMethods
         {
             mods = mods.Concat(anyOfGroups.SelectMany(group => group.AnyOf.Where(IsActive)));
         }
-        return mods?.Select(mod => $"{mod}({(long)mod})").Join(",");
+        return mods?.Select(mod =>
+        {
+            var modName = Enum.GetName(mod.GetType(), mod); // 有人patch了System.Enum.ToString，太过分了
+            return $"{modName}({(long)mod})";
+        }).Join(",");
     }
 }
 
