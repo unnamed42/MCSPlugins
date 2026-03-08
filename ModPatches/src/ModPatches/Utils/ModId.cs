@@ -25,6 +25,7 @@ public enum ModId : long
     JTools = 2951535735, // TierneyJohn.MiChangSheng.JTools
     传音符联系人优化 = 2935247227, // CyContactOptimization
     更多仙器神器圣器 = 3036262268, // Lingjie 修改版
+    减缓时间流逝 = 2826273731, // Slow_Time
 }
 
 public static class ModIdMethods

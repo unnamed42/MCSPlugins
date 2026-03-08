@@ -13,244 +13,252 @@
       https://nuget.samboy.dev/v3/index.json
     </RestoreAdditionalProjectSources>
     <RootNamespace>Patches</RootNamespace>
+    <GameDir>..\..\steamapps\common\觅长生\觅长生_Data\Managed</GameDir>
+    <WorkshopDir>..\..\steamapps\workshop\content\1189490</WorkshopDir>
   </PropertyGroup>
 
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>$(McsPath)\..\..\workshop\content\1189490\2824349934\BepInEx\core\0Harmony.dll</HintPath>
+      <HintPath>$(WorkshopDir)\2824349934\BepInEx\core\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MonoMod.Cil">
-      <HintPath>$(McsPath)\..\..\workshop\content\1189490\2824349934\BepInEx\core\MonoMod.Utils.dll</HintPath>
+      <HintPath>$(WorkshopDir)\2824349934\BepInEx\core\MonoMod.Utils.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Mono.Cecil">
-      <HintPath>$(McsPath)\..\..\workshop\content\1189490\2824349934\BepInEx\core\Mono.Cecil.dll</HintPath>
+      <HintPath>$(WorkshopDir)\2824349934\BepInEx\core\Mono.Cecil.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>$(GameDir)\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>$(GameDir)\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="BepInEx">
-      <HintPath>$(McsPath)\..\..\workshop\content\1189490\2824349934\BepInEx\core\BepInEx.dll</HintPath>
+      <HintPath>$(WorkshopDir)\2824349934\BepInEx\core\BepInEx.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DOTween">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\DOTween.dll</HintPath>
+      <HintPath>$(GameDir)\DOTween.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DOTweenPro">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\DOTweenPro.dll</HintPath>
+      <HintPath>$(GameDir)\DOTweenPro.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\Microsoft.CSharp.dll</HintPath>
+      <HintPath>$(GameDir)\Microsoft.CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\Newtonsoft.Json.dll</HintPath>
+      <HintPath>$(GameDir)\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="spine-csharp">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\spine-csharp.dll</HintPath>
+      <HintPath>$(GameDir)\spine-csharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="spine-unity">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\spine-unity.dll</HintPath>
+      <HintPath>$(GameDir)\spine-unity.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\System.dll</HintPath>
+      <HintPath>$(GameDir)\System.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Core">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\System.Core.dll</HintPath>
+      <HintPath>$(GameDir)\System.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Collections">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\System.Collections.dll</HintPath>
+      <HintPath>$(GameDir)\System.Collections.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Data">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\System.Data.dll</HintPath>
+      <HintPath>$(GameDir)\System.Data.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Drawing">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\System.Drawing.dll</HintPath>
+      <HintPath>$(GameDir)\System.Drawing.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Xml">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\System.Xml.dll</HintPath>
+      <HintPath>$(GameDir)\System.Xml.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Linq">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\System.Linq.dll</HintPath>
+      <HintPath>$(GameDir)\System.Linq.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Runtime.InteropServices">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\System.Runtime.InteropServices.dll</HintPath>
+      <HintPath>$(GameDir)\System.Runtime.InteropServices.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Reflection">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\System.Reflection.dll</HintPath>
+      <HintPath>$(GameDir)\System.Reflection.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UniTask">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\UniTask.dll</HintPath>
+      <HintPath>$(GameDir)\UniTask.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UniTask.DOTween">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\UniTask.DOTween.dll</HintPath>
+      <HintPath>$(GameDir)\UniTask.DOTween.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UniTask.Linq">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\UniTask.Linq.dll</HintPath>
+      <HintPath>$(GameDir)\UniTask.Linq.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UniTask.TextMeshPro">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\UniTask.TextMeshPro.dll</HintPath>
+      <HintPath>$(GameDir)\UniTask.TextMeshPro.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>$(GameDir)\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.AssetBundleModule">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
+      <HintPath>$(GameDir)\UnityEngine.AssetBundleModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.AudioModule">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+      <HintPath>$(GameDir)\UnityEngine.AudioModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>$(GameDir)\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.ImageConversionModule">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+      <HintPath>$(GameDir)\UnityEngine.ImageConversionModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <HintPath>$(GameDir)\UnityEngine.IMGUIModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.InputModule">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\UnityEngine.InputModule.dll</HintPath>
+      <HintPath>$(GameDir)\UnityEngine.InputModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.Physics2DModule">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\UnityEngine.Physics2DModule.dll</HintPath>
+      <HintPath>$(GameDir)\UnityEngine.Physics2DModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>$(GameDir)\UnityEngine.PhysicsModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      <HintPath>$(GameDir)\UnityEngine.TextRenderingModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <HintPath>$(GameDir)\UnityEngine.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UIModule">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+      <HintPath>$(GameDir)\UnityEngine.UIModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
+      <HintPath>$(GameDir)\UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestAudioModule">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+      <HintPath>$(GameDir)\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestModule">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
+      <HintPath>$(GameDir)\UnityEngine.UnityWebRequestModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestTextureModule">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+      <HintPath>$(GameDir)\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestWWWModule">
-      <HintPath>$(McsPath)\觅长生_Data\Managed\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+      <HintPath>$(GameDir)\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MCS_NPCManager">
-      <HintPath>$(McsPath)\..\..\workshop\content\1189490\2902348517\plugins\MCS_NPCManager.dll</HintPath>
+      <HintPath>$(WorkshopDir)\2902348517\plugins\MCS_NPCManager.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Ventulus">
-      <HintPath>$(McsPath)\..\..\workshop\content\1189490\2929474347\plugins\MoreNPCInfo.dll</HintPath>
+      <HintPath>$(WorkshopDir)\2929474347\plugins\MoreNPCInfo.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UniqueCream.MCSWorldExpand">
-      <HintPath>$(McsPath)\..\..\workshop\content\1189490\2838215105\plugins\MCSWorldExpand.dll</HintPath>
+      <HintPath>$(WorkshopDir)\2838215105\plugins\MCSWorldExpand.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Ventulus">
-      <HintPath>$(McsPath)\..\..\workshop\content\1189490\2897451176\plugins\BetterChuansong.dll</HintPath>
+      <HintPath>$(WorkshopDir)\2897451176\plugins\BetterChuansong.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Ventulus">
-      <HintPath>$(McsPath)\..\..\workshop\content\1189490\2893246439\plugins\ExpectedDate.dll</HintPath>
+      <HintPath>$(WorkshopDir)\2893246439\plugins\ExpectedDate.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Ventulus">
-      <HintPath>$(McsPath)\..\..\workshop\content\1189490\2946826370\plugins\VTools.dll</HintPath>
+      <HintPath>$(WorkshopDir)\2946826370\plugins\VTools.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Ventulus">
-      <HintPath>$(McsPath)\..\..\workshop\content\1189490\2939849884\plugins\LianDanShowYaoZhi.dll</HintPath>
+      <HintPath>$(WorkshopDir)\2939849884\plugins\LianDanShowYaoZhi.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Ventulus">
-      <HintPath>$(McsPath)\..\..\workshop\content\1189490\2939849884\plugins\LianDanShowYaoZhi.dll</HintPath>
+      <HintPath>$(WorkshopDir)\2939849884\plugins\LianDanShowYaoZhi.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Ventulus">
-      <HintPath>$(McsPath)\..\..\workshop\content\1189490\2935247227\plugins\CyContactOptimization.dll</HintPath>
+      <HintPath>$(WorkshopDir)\2935247227\plugins\CyContactOptimization.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ModMichangSD">
-      <HintPath>$(McsPath)\..\..\workshop\content\1189490\3282436282\plugins\ModMichangSD.dll</HintPath>
+      <HintPath>$(WorkshopDir)\3282436282\plugins\ModMichangSD.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ElementalMastery">
-      <HintPath>$(McsPath)\..\..\workshop\content\1189490\3018994631\plugins\ElementalMastery.dll</HintPath>
+      <HintPath>$(WorkshopDir)\3018994631\plugins\ElementalMastery.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityExplorer">
-      <HintPath>$(McsPath)\..\..\workshop\content\1189490\2824615654\plugins\UnityExplorer.BIE5.Mono.dll</HintPath>
+      <HintPath>$(WorkshopDir)\2824615654\plugins\UnityExplorer.BIE5.Mono.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RightClickQuickCast">
-      <HintPath>$(McsPath)\..\..\workshop\content\1189490\2916366424\plugins\RightClickQuickCast.dll</HintPath>
+      <HintPath>$(WorkshopDir)\2916366424\plugins\RightClickQuickCast.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="XYModLib">
-      <HintPath>$(McsPath)\..\..\workshop\content\1189490\2824332242\plugins\XYModLib.dll</HintPath>
+      <HintPath>$(WorkshopDir)\2824332242\plugins\XYModLib.dll</HintPath>
       <Private>False</Private>
     </Reference>
    <Reference Include="MCSCheat">
-      <HintPath>$(McsPath)\..\..\workshop\content\1189490\2825114586\plugins\MCSCheatPlugin.dll</HintPath>
+      <HintPath>$(WorkshopDir)\2825114586\plugins\MCSCheatPlugin.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="QXScene.MCS">
-      <HintPath>$(McsPath)\..\..\workshop\content\1189490\3067401882\plugins\QXScene.dll</HintPath>
+      <HintPath>$(WorkshopDir)\3067401882\plugins\QXScene.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="TierneyJohn.MiChangSheng.JTools">
-      <HintPath>$(McsPath)\..\..\workshop\content\1189490\2951535735\plugins\JTools.dll</HintPath>
+      <HintPath>$(WorkshopDir)\2951535735\plugins\JTools.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="LingJie">
+      <HintPath>$(WorkshopDir)\2968233692\plugins\LingJie.dll</HintPath>
+    </Reference>
+    <Reference Include="Slow_Time">
+      <HintPath>$(WorkshopDir)\2826273731\plugins\[MxM]Slow Time.dll</HintPath>
     </Reference>
   </ItemGroup>
 
