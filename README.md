@@ -7,3 +7,7 @@
 ## ModPatches
 
 [多mod兼容](https://steamcommunity.com/sharedfiles/filedetails/?id=3335773793)
+
+## FastPaimai
+
+[极速拍卖](https://steamcommunity.com/sharedfiles/filedetails/?id=3493753835)
