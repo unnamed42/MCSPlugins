@@ -1,0 +1,217 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>McsMCP</AssemblyName>
+    <RootNamespace>McsMCP</RootNamespace>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+    <!--
+      ★ Exclude tests/ from the mod build.
+
+      The SDK's default globbing compiles **/*.cs, which swept in tests/http-transport/ - a SEPARATE
+      project that deliberately re-declares McsMCPPlugin, BuildInfo, FieldWatcher and UnityHelper as
+      stubs and compiles the Server sources a second time. The result was a wall of CS0101 "namespace
+      already contains X" plus CS0579 duplicate-attribute errors from its own obj/ folder being
+      globbed too, and none of it points at the real cause.
+
+      That project has its own .csproj and is built on demand (see its README); it must never be
+      linked into the mod.
+    -->
+    <DefaultItemExcludes>$(DefaultItemExcludes);tests/**</DefaultItemExcludes>
+    <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
+    <!--
+      ★ x64 must be declared explicitly, for the same reason as FastPaimai/MelonMCP:
+      leaving it unset produces AnyCPU, which writes Machine=i386 into the PE header.
+      Everything in Server/NativeMemory.cs (VirtualQuery / Marshal.Copy / static VA ->
+      runtime VA translation) breaks in a 32-bit process.
+
+      This game's BepInEx runs the 64-bit Unity player (UnityPlayer.dll is x86-64), so
+      x64 is the only correct choice here as well.
+    -->
+    <PlatformTarget>x64</PlatformTarget>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <Deterministic>true</Deterministic>
+
+    <!-- 觅长生 runs on Unity Mono, so the game assemblies are ordinary .NET Framework
+         assemblies and are referenced straight out of the install. Same paths as
+         FastPaimai.csproj, which is the proven-working reference for this repo. -->
+    <GameDir>..\steamapps\common\觅长生\觅长生_Data\Managed</GameDir>
+    <WorkShopDir>..\steamapps\workshop\content\1189490</WorkShopDir>
+    <BepInExCore>$(WorkShopDir)\2824349934\BepInEx\core</BepInExCore>
+    <LibDir>lib</LibDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- BepInEx 5.4.17 + HarmonyX 2.5.5, taken from the mod framework pack the game
+         actually loads. Pinning to the installed copies (rather than NuGet) is what keeps
+         the compiled references resolvable at runtime. -->
+    <Reference Include="BepInEx">
+      <HintPath>$(BepInExCore)\BepInEx.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(BepInExCore)\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <!--
+      NOTE: no Iced reference. MelonMCP needed it for disasm / read_mem / resolve_jump,
+      which decoded the RUNNING process's native memory - an IL2CPP-specific problem
+      (Il2CppInterop rewrites native method entries to ff 25 <disp32> detours, so on-disk
+      bytes never match live bytes).
+
+      觅长生 is Mono: Harmony patches the managed method directly, there is no GameAssembly.dll
+      and no native code mapping worth decoding, so those tools and their Iced dependency are
+      gone from this port. See McsMCP/README.md, "What was removed".
+    -->
+
+    <!-- Newtonsoft.Json: the GAME ships 12.0.0, which is what Assembly-CSharp binds to.
+         Version 13 would be a stronger assembly identity and would fail to unify, so the
+         game's own copy is referenced and PRIVATE=FALSE - never copy our own next to it. -->
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(GameDir)\Newtonsoft.Json.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <!--
+      mcs.dll (Mono's C# compiler) is embedded into McsMCP.dll by ILRepack so the mod stays a
+      single-file drop-in.
+
+      ★ The net35 build, deliberately, not the net6 one MelonMCP used. Measured with monodis:
+
+        lib/net6/mcs.dll   -> references System.Runtime 6.0.0.0, System.Collections 6.0.0.0,
+                              and 14 more contract assemblies that DO NOT EXIST in a Unity
+                              Mono 4.x profile. Loading it there fails at type-resolution
+                              time, which surfaces as "execute_csharp is broken" and nothing
+                              else.
+        lib/net35/mcs.dll  -> references only mscorlib 2.0.0.0, System 2.0.0.0,
+                              System.Core 3.5.0.0 and MonoMod.RuntimeDetour. Every one of
+                              those resolves in this game's MonoBleedingEdge runtime.
+      This is also exactly what UnityExplorer does for its BepInEx/Mono builds, and the copy
+      shipped here is byte-identical to the one inside UnityExplorer.BIE5.Mono.dll that is
+      already running in this game.
+
+      ★ WHY IT IS VENDORED (committed) RATHER THAN FETCHED.
+
+      Considered and rejected, so this does not get re-litigated:
+
+      1. NOT ON NUGET. There is no published package for Mono.CSharp at this net35 revision;
+         the nearest is Microsoft.CodeAnalysis.CSharp, which is Roslyn (a different compiler with
+         a different evaluator API) and would not be a drop-in replacement.
+
+      2. THE UPSTREAM REPO SHIPS SOURCE, NOT A BINARY. Provenance is sinai-dev/mcs-unity (the
+         same source UnityExplorer credits in its THIRDPARTY_LICENSES.md), but that repository is
+         ARCHIVED, carries NO LICENSE, and contains only the 68 source files of the compiler -
+         there is no prebuilt DLL to download. Fetching it would therefore mean cloning and
+         BUILDING a 3.6 MB unlicensed compiler as part of our build, which is strictly worse than
+         committing one 1.5 MB binary.
+
+      3. IT MUST BE PINNED ANYWAY. The mod's behaviour depends on this exact build's language
+         level (C# 7.2 - see docs/mcsmcp.md §3) and on its MonoMod.RuntimeDetour 22.3.23.4
+         requirement. A floating download could silently change either, turning a working
+         execute_csharp into a puzzling failure.
+
+      Integrity, if it ever needs re-verification against UnityExplorer's copy:
+        md5 = 7927cff498e7c67bca6678bb634e736f
+    -->
+    <Reference Include="mcs">
+      <HintPath>$(LibDir)\net35\mcs.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+
+  <!-- ILRepack merges mcs.dll into McsMCP.dll in a post-build step -->
+  <ItemGroup>
+    <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.48">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <McsDllPath>$(MSBuildProjectDirectory)\$(LibDir)\net35\mcs.dll</McsDllPath>
+  </PropertyGroup>
+
+  <!--
+    Merge mcs.dll into the mod in a post-build step.
+
+    Input is $(IntermediateOutputPath)McsMCP.dll (the pristine compiler output), NOT
+    $(TargetPath): writing the merged file back over the build output would make the next
+    incremental build re-merge an already-merged assembly, and ILRepack then reports every
+    mcs type as a duplicate.
+
+    There is deliberately NO configuration condition here. It used to be Release-only in the
+    MelonMCP ancestor, which made 'dotnet build -c Debug' succeed while silently producing an
+    assembly with no Mono.CSharp in it: execute_csharp and evaluate_expression then died at
+    type-initializer time with a message pointing nowhere near the real cause. A build that
+    emits a broken artifact on success is worse than one that fails loudly, so every
+    configuration now merges.
+
+    DebugInfo is tied to the configuration rather than hardcoded off, so a Debug build still
+    yields a usable .pdb while a Release build stays lean.
+  -->
+  <Target Name="MergeMcsIntoMod" AfterTargets="Build">
+    <PropertyGroup>
+      <MergedModPath>$(TargetDir)McsMCP.dll</MergedModPath>
+      <PristineModPath>$(IntermediateOutputPath)McsMCP.dll</PristineModPath>
+      <MergeDebugInfo Condition="'$(Configuration)'=='Debug'">true</MergeDebugInfo>
+      <MergeDebugInfo Condition="'$(MergeDebugInfo)'==''">false</MergeDebugInfo>
+    </PropertyGroup>
+    <ItemGroup>
+      <MergeInputs Include="$(PristineModPath)" />
+      <MergeInputs Include="$(McsDllPath)" />
+    </ItemGroup>
+    <ILRepack TargetKind="SameAsPrimaryAssembly" OutputFile="$(MergedModPath)" InputAssemblies="@(MergeInputs)" LibraryPath="$(TargetDir);$(LibDir)\net35;$(BepInExCore);$(GameDir)" Internalize="false" Parallel="true" DebugInfo="$(MergeDebugInfo)" Union="true" AllowDuplicateResources="true" AllowedDuplicateNamespaces="Mono.CompilerServices" />
+    <Message Importance="high" Text="ILRepack: merged mcs.dll into $(MergedModPath)" />
+  </Target>
+
+  <!-- Unity references are provided by the game -->
+  <ItemGroup>
+    <Reference Include="UnityEngine">
+      <HintPath>$(GameDir)\UnityEngine.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(GameDir)\UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <!--
+      UnityEngine.UI holds Button and Text, needed by dump_menu_state. Referencing
+      CoreModule is not enough: the UnityEngine.UI namespace lives in its own assembly, and
+      without this the compiler reports "UnityEngine.UI does not exist" as if the namespace
+      were misspelled.
+    -->
+    <Reference Include="UnityEngine.UI">
+      <HintPath>$(GameDir)\UnityEngine.UI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <!--
+      ScreenCapture and Texture2D.EncodeToPNG live in their own modules in this Unity build,
+      and take_screenshot is now ENABLED (it was disabled under IL2CPP). Referencing only
+      UnityEngine.CoreModule leaves ScreenCapture unresolved.
+    -->
+    <Reference Include="UnityEngine.ScreenCaptureModule">
+      <HintPath>$(GameDir)\UnityEngine.ScreenCaptureModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>$(GameDir)\UnityEngine.ImageConversionModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <!--
+      NOTE: no UnityEngine.SceneManagementModule reference. Unlike newer Unity installs, this
+      build has no such assembly on disk - SceneManager and Scene live inside
+      UnityEngine.CoreModule.dll, which is already referenced above. Adding the separate
+      reference produces MSB3245 'could not resolve assembly' and, once the helper starts
+      touching SceneManager directly, hard CS0246 errors.
+    -->
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>mcsprobe</AssemblyName>
+    <StartupObject>Matrix</StartupObject>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <NoWarn>CS0618</NoWarn>
+  </PropertyGroup>
+  <ItemGroup><Compile Include="probe.cs" />
+    <Compile Include="matrix.cs" /></ItemGroup>
+  <ItemGroup>
+    <Reference Include="mcs"><HintPath>../../lib/net35/mcs.dll</HintPath></Reference>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
+  </ItemGroup>
+</Project>

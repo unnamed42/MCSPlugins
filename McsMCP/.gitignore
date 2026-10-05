@@ -1,0 +1,10 @@
+# ILRepack leaves no build artefacts here: the merge target in McsMCP.csproj writes only
+# ILRepack.log (already covered by the repository .gitignore's *.log rule).
+#
+# ★ ILRepack.targets is deliberately NOT ignored. It is an INTENTIONALLY EMPTY file whose mere
+# presence disables an auto-imported target shipped by ILRepack.Lib.MSBuild.Task - that package's
+# target merges every *.dll in the output directory, which would re-merge our own output with
+# mcs.dll and fail on every duplicated type. The package only runs its pass when this file is
+# ABSENT, so a blanket "ILRepack*" ignore (which is what this file used to contain) would drop the
+# guard from the repository and break a fresh clone in a way that looks like a duplicate-type bug
+# in our own code.

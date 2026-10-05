@@ -79,3 +79,12 @@ crashlytics-build.properties
 
 **/steamapps
 output/
+
+# Repo-local NuGet package folder, redirected here because the user-level ~/.nuget/packages
+# is on a read-only mount on this machine (see McsMCP/nuget.config).
+**/.nuget/
+
+# Test harness dependencies (restored on demand; see McsMCP/tests/http-transport/README.md)
+**/tests/**/node_modules/
+**/tests/**/bin/
+**/tests/**/obj/

@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <StartupObject>Serve</StartupObject>
+    <AssemblyName>harness</AssemblyName>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <NoWarn>CS0618;CS0169;CS0414;CS0649;CS0067</NoWarn>
+    <GameDir>..\..\..\steamapps\common\觅长生\觅长生_Data\Managed</GameDir>
+    <BepInExCore>..\..\..\steamapps\workshop\content\1189490\2824349934\BepInEx\core</BepInExCore>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="harness.cs" />
+    <Compile Include="serve.cs" />
+    <Compile Include="stubs.cs" />
+    <Compile Include="../../Server/MCPHttpServer.cs" />
+    <Compile Include="../../Server/MCPServer.cs" />
+    <Compile Include="../../Server/MCPProtocol.cs" />
+    <Compile Include="../../Tools/IToolDefinition.cs" />
+    <Compile Include="../../Tools/TypeResolver.cs" />
+    <Compile Include="../../Server/UnityMainThreadDispatcher.cs" />
+    <Compile Include="../../Server/MainThreadWatchdog.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json"><HintPath>$(GameDir)\Newtonsoft.Json.dll</HintPath></Reference>
+    <Reference Include="BepInEx"><HintPath>$(BepInExCore)\BepInEx.dll</HintPath></Reference>
+    <Reference Include="System.Net.Http"><HintPath>System.Net.Http.dll</HintPath></Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
+  </ItemGroup>
+</Project>
