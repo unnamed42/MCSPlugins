@@ -49,7 +49,7 @@ public class PatchPlugin : BaseUnityPlugin
             typeof(Lingjie_Danfang_Patch),
             typeof(ElementalMastery_EmptySlot_Patch),
             typeof(MCSCheat_Patch),
-            typeof(QXScene_Patch),
+            // typeof(QXScene_Patch),
             typeof(CyContactOptimization_Patch),
             typeof(XYModLib_Scaling_Patch),
             typeof(Lingjie_SlowTime_Patch),
