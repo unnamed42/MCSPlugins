@@ -85,7 +85,7 @@ Z: 写入 → S: 读回 = false      ← 二者确实是不同位置
 ✗ 自证         File.Exists(<刚写进去的同一个路径>)
 ```
 
-已落到 [`McsMCP/tests/http-transport/live-check.mjs`](../McsMCP/tests/http-transport/live-check.mjs)：
+已落到该 MCP 服务端的端到端检查里（那份工程现维护在 UnityMCP 仓库）：
 **同时**断言"游戏确认写了"**和**"文件出现在宿主预期路径"，两者都过才算通过。
 
 用错误盘符反向验证过它的区分度：
